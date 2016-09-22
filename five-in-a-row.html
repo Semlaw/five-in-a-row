@@ -256,8 +256,12 @@
 					return
 				}
 				//获取点击坐标
-				var x = Math.floor(e.offsetX / 40);
-				var y = Math.floor(e.offsetY / 40);
+				var x = Math.floor((e.offsetX-10)/40);
+				var y = Math.floor((e.offsetY-10) / 40);
+				//在边框边缘10px以内的地方点击无效
+				if(x< 0 || y < 0){
+					return;
+				}
 				if(allPoint[x][y] == 0) {
 					allPoint[x][y] = 1;
 					allStep[stepIndex] = {
@@ -291,14 +295,21 @@
 			//选择位置
 			//鼠标在棋盘上移动的时候会显示标记框
 			canvas.onmousemove = function(e){
-				var x = Math.floor(e.offsetX/40);
-				var y = Math.floor(e.offsetY / 40);
+				var x = Math.floor((e.offsetX-10)/40);
+				var y = Math.floor((e.offsetY-10) / 40);
+				
 				//每次绘制红色标志框之前,都在每一个落字点绘制黄色的的标志框,也就是覆盖可能存在的红色标志框
 				for(var i = 0; i < 19 ; i++){
 					for(var j = 0; j < 19 ;j++){
 						chooseMark(i,j,'orange');
 					}
 				}
+				
+				//在边框边缘10px以内的地方移动无效
+				if(x< 0 || y < 0){
+					return;
+				}
+				
 				if(x< 19 && y < 19){
 					chooseMark(x,y,'red');
 				}
